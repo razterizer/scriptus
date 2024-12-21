@@ -57,6 +57,26 @@ def save_chapters(book: bib.Book, sub_folder: str):
                 fp.write(f"{v}\n")
 
 
+def save_bible(bible: bib.Bible, filename: str):
+    """Saves the entire bible in filename.
+    Every row in the file is a verse. No book names, chapter number, or verse numbers are here.
+
+    Parameters
+    ----------
+    bible: bible.Bible
+        The bible object to be saved.
+    filename: str
+        The filename where to save the bible.
+    """
+    with open(filename, 'w') as fp:
+        for book_index in range(bible.books()):
+            book = bible.book(book_index)
+            for ch in book.chapters():
+                verses = book.verses_chapter(ch)
+                for v in verses:
+                    fp.write(f"{v}\n")
+
+
 def save_plaintext(bible: bib.Bible, folder_name: str):
     """Saves the bible object in plain text in directory folder_name.
     There are 2 main ways they are stored. The first is to store an entire book in plain text in a single file.
@@ -81,6 +101,8 @@ def save_plaintext(bible: bib.Bible, folder_name: str):
         save_book(book, sub_file)
         sub_folder = os.path.join(folder_name, ("%0*d" % (2, i + 1)))
         save_chapters(book, sub_folder)
+    bible_filename = os.path.join(folder_name, "bible.txt")
+    save_bible(bible, bible_filename)
 
 
 def main():
