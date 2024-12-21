@@ -1,0 +1,9 @@
+name: scriptus_1
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - pip:
+      - pytest
