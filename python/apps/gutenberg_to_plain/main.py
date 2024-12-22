@@ -91,6 +91,8 @@ def save_plaintext(bible: bib.Bible, folder_name: str):
     """
     # if os.path.exists(folder_name):
     #     raise FileExistsError(f"ERROR: The folder \"{folder_name}\" already exists.\n")
+    if os.path.exists(folder_name) and not os.path.isdir(folder_name):
+        raise FileExistsError(f"ERROR: The path \"{folder_name}\" is not a directory!\n")
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
