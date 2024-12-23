@@ -46,8 +46,7 @@ def save_chapters(book: bib.Book, sub_folder: str):
     sub_folder: str
         The folder where to save all the chapters.
     """
-    if not os.path.exists(sub_folder):
-        os.makedirs(sub_folder)
+    os.makedirs(sub_folder, exist_ok=True)
     chapters = book.chapters()
     for ch in chapters:
         filename = os.path.join(sub_folder, ("%0*d" % (3, ch)) + ".txt")
@@ -93,15 +92,14 @@ def save_plaintext(bible: bib.Bible, folder_name: str):
     #     raise FileExistsError(f"ERROR: The folder \"{folder_name}\" already exists.\n")
     if os.path.exists(folder_name) and not os.path.isdir(folder_name):
         raise FileExistsError(f"ERROR: The path \"{folder_name}\" is not a directory!\n")
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
+    os.makedirs(folder_name, exist_ok=True)
 
     n_books = bible.books()
     for i in range(n_books):
-        sub_file = os.path.join(folder_name, ("%0*d" % (2, i + 1)) + ".txt")
+        sub_file = os.path.join(folder_name, f"{i + 1:02}.txt")
         book = bible.book(i)
         save_book(book, sub_file)
-        sub_folder = os.path.join(folder_name, ("%0*d" % (2, i + 1)))
+        sub_folder = os.path.join(folder_name, f"{i + 1:02}")
         save_chapters(book, sub_folder)
     bible_filename = os.path.join(folder_name, "bible.txt")
     save_bible(bible, bible_filename)
